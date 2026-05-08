@@ -1,0 +1,236 @@
+#:kivy 2.2.0
+#:import dp kivy.metrics.dp
+
+# ════════════════════════════════════════════════════════════════
+#  ROOT — Screen Manager
+# ════════════════════════════════════════════════════════════════
+
+ScreenManager:
+    HomeScreen:
+        name: 'home'
+    WorkersScreen:
+        name: 'workers'
+    AttendanceScreen:
+        name: 'attendance'
+    ReportScreen:
+        name: 'report'
+
+
+# ════════════════════════════════════════════════════════════════
+#  HOME SCREEN
+# ════════════════════════════════════════════════════════════════
+
+<HomeScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Учёт Рабочих'
+            elevation: 4
+
+        BoxLayout:
+            orientation: 'vertical'
+            padding: dp(28), dp(40)
+            spacing: dp(18)
+
+            MDLabel:
+                text: '👷 Главное меню'
+                halign: 'center'
+                font_style: 'H5'
+                size_hint_y: None
+                height: dp(52)
+
+            MDLabel:
+                text: 'Выберите нужный раздел'
+                halign: 'center'
+                font_style: 'Caption'
+                theme_text_color: 'Secondary'
+                size_hint_y: None
+                height: dp(28)
+
+            MDRaisedButton:
+                text: '👷   Рабочие'
+                size_hint: 1, None
+                height: dp(64)
+                font_size: '18sp'
+                on_release: app.root.current = 'workers'
+
+            MDRaisedButton:
+                text: '📋   Посещаемость'
+                size_hint: 1, None
+                height: dp(64)
+                font_size: '18sp'
+                md_bg_color: 0.1, 0.58, 0.25, 1
+                on_release: app.root.current = 'attendance'
+
+            MDRaisedButton:
+                text: '📊   Отчёт'
+                size_hint: 1, None
+                height: dp(64)
+                font_size: '18sp'
+                md_bg_color: 0.48, 0.12, 0.72, 1
+                on_release: app.root.current = 'report'
+
+            Widget:
+
+
+# ════════════════════════════════════════════════════════════════
+#  WORKERS SCREEN
+# ════════════════════════════════════════════════════════════════
+
+<WorkersScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: '👷 Рабочие'
+            elevation: 4
+            left_action_items:
+                [['arrow-left', lambda x: setattr(app.root, 'current', 'home')]]
+            right_action_items:
+                [['plus-circle-outline', lambda x: root.show_add_dialog()]]
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: workers_list
+                cols: 1
+                spacing: dp(10)
+                padding: dp(12), dp(14)
+                size_hint_y: None
+                height: self.minimum_height
+
+
+# ════════════════════════════════════════════════════════════════
+#  ATTENDANCE SCREEN
+# ════════════════════════════════════════════════════════════════
+
+<AttendanceScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: '📋 Посещаемость'
+            elevation: 4
+            left_action_items:
+                [['arrow-left', lambda x: setattr(app.root, 'current', 'home')]]
+
+        # Date navigation bar
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(58)
+            padding: dp(6), dp(6)
+            spacing: dp(4)
+
+            MDIconButton:
+                icon: 'chevron-left'
+                size_hint_x: None
+                width: dp(48)
+                on_release: root.prev_day()
+
+            MDRaisedButton:
+                id: date_btn
+                text: ''
+                size_hint: 1, None
+                height: dp(44)
+                font_size: '14sp'
+                on_release: root.go_today()
+
+            MDIconButton:
+                icon: 'chevron-right'
+                size_hint_x: None
+                width: dp(48)
+                on_release: root.next_day()
+
+        # Summary label
+        MDLabel:
+            id: summary_lbl
+            text: ''
+            halign: 'center'
+            font_style: 'Caption'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: dp(28)
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: att_list
+                cols: 1
+                spacing: dp(10)
+                padding: dp(12), dp(6)
+                size_hint_y: None
+                height: self.minimum_height
+
+
+# ════════════════════════════════════════════════════════════════
+#  REPORT SCREEN
+# ════════════════════════════════════════════════════════════════
+
+<ReportScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: '📊 Отчёт'
+            elevation: 4
+            left_action_items:
+                [['arrow-left', lambda x: setattr(app.root, 'current', 'home')]]
+
+        # Period selector bar
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(56)
+            padding: dp(8), dp(6)
+            spacing: dp(6)
+
+            MDLabel:
+                id: period_lbl
+                text: 'Период: 30 дн.'
+                font_style: 'Caption'
+                theme_text_color: 'Secondary'
+                size_hint_x: 0.32
+
+            MDRaisedButton:
+                text: '7 дн'
+                size_hint: None, None
+                size: dp(58), dp(40)
+                font_size: '13sp'
+                on_release: root.set_period(7)
+
+            MDRaisedButton:
+                text: '14 дн'
+                size_hint: None, None
+                size: dp(62), dp(40)
+                font_size: '13sp'
+                on_release: root.set_period(14)
+
+            MDRaisedButton:
+                text: '30 дн'
+                size_hint: None, None
+                size: dp(62), dp(40)
+                font_size: '13sp'
+                on_release: root.set_period(30)
+
+            MDRaisedButton:
+                text: 'Сброс'
+                size_hint: None, None
+                size: dp(66), dp(40)
+                font_size: '12sp'
+                md_bg_color: 0.35, 0.35, 0.38, 1
+                on_release: root.set_period(30)
+
+        ScrollView:
+            do_scroll_x: False
+
+            GridLayout:
+                id: report_list
+                cols: 1
+                spacing: dp(10)
+                padding: dp(12), dp(8)
+                size_hint_y: None
+                height: self.minimum_height

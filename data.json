@@ -1,0 +1,45 @@
+{
+  "workers": [
+    {
+      "id": "a1b2c3d4",
+      "name": "Алишер Каримов",
+      "salary_per_day": 80000
+    },
+    {
+      "id": "e5f6g7h8",
+      "name": "Бахром Рашидов",
+      "salary_per_day": 65000
+    },
+    {
+      "id": "i9j0k1l2",
+      "name": "Санжар Юсупов",
+      "salary_per_day": 70000
+    }
+  ],
+  "attendance": {
+    "2026-05-01": {
+      "a1b2c3d4": true,
+      "e5f6g7h8": true,
+      "i9j0k1l2": false
+    },
+    "2026-05-02": {
+      "a1b2c3d4": true,
+      "e5f6g7h8": false,
+      "i9j0k1l2": true
+    },
+    "2026-05-05": {
+      "a1b2c3d4": true,
+      "e5f6g7h8": true,
+      "i9j0k1l2": true
+    },
+    "2026-05-06": {
+      "a1b2c3d4": true,
+      "e5f6g7h8": false,
+      "i9j0k1l2": true
+    }
+  },
+  "advances": {
+    "a1b2c3d4": 150000,
+    "e5f6g7h8": 50000
+  }
+}
